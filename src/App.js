@@ -4,6 +4,7 @@ import CocktailCardList from './components/CocktailCardList';
 
 function App() {
   const [cocktail, setCocktail] = useState(cocktail_data);
+  const [cocktailSearchResults, setCocktailSearchResults] = useState(cocktail_data);
   const MAX_NUMBER_OF_INGREDIENTS = 2;
 
   const runThroughIngredients = (data, event) => {
@@ -14,23 +15,21 @@ function App() {
   };
 
   const handleSearchInputChange = (event) => {
-    if (event.target.value !== '') {
-      setCocktail(
-        cocktail.filter((cocktail) => {
-          return (
-            cocktail['strDrink'].toLowerCase().includes(event.target.value.toLowerCase()) ||
-            runThroughIngredients(cocktail, event)
-          );
-        })
-      );
-    } else setCocktail(cocktail_data);
+    setCocktailSearchResults(
+      cocktail.filter((data) => {
+        return (
+          data['strDrink'].toLowerCase().includes(event.target.value.toLowerCase()) ||
+          runThroughIngredients(data, event)
+        );
+      })
+    );
   };
 
   return (
     <div>
       <label style={{ color: 'white' }}>Search: </label>
       <input onChange={handleSearchInputChange} />
-      <CocktailCardList cocktail={cocktail} />
+      <CocktailCardList cocktail={cocktailSearchResults} />
     </div>
   );
 }
