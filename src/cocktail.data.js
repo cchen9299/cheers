@@ -1,0 +1,40 @@
+const cocktail_data = [
+  {
+    idDrink: 1,
+    strDrink: 'Rum and Coke',
+    strAlcoholic: 'Alcoholic',
+    strCategory: 'Cocktail',
+    strDrinkTUmb: 'url',
+    strIngredient1: 'Whiskey',
+    strIngredient2: 'Pepsi',
+    strMeasure1: '1 portion',
+    strMeasure2: '1 portion',
+    strInstructions: 'Mix, stir and do not shake',
+  },
+  {
+    idDrink: 2,
+    strDrink: 'Gin and Tonic',
+    strAlcoholic: 'Alcoholic',
+    strCategory: 'Cocktail',
+    strDrinkTUmb: 'url',
+    strIngredient1: 'Gin',
+    strIngredient2: 'Tonic',
+    strMeasure1: '1 portion',
+    strMeasure2: '1 portion',
+    strInstructions: 'Mix, stir and do not shake',
+  },
+  {
+    idDrink: 3,
+    strDrink: 'Screwdriver',
+    strAlcoholic: 'Alcoholic',
+    strCategory: 'Cocktail',
+    strDrinkTUmb: 'url',
+    strIngredient1: 'Vodka',
+    strIngredient2: 'Orange Juice',
+    strMeasure1: '1 portion',
+    strMeasure2: '1 portion',
+    strInstructions: 'Mix and stir',
+  },
+];
+
+export default cocktail_data;
