@@ -4,10 +4,10 @@ import CocktailCard from '../CocktailCard';
 function CocktailCardList({ cocktail }) {
   return (
     <>
-      {cocktail.map((cocktail) => {
+      {cocktail.map((cocktail, index) => {
         return (
           <CocktailCard
-            key={cocktail.idDrink}
+            key={index}
             name={cocktail.strDrink}
             baseSpirit={cocktail.strIngredient1}
             ingredients={cocktail.strIngredient2}
