@@ -1,16 +1,16 @@
-export const cocktailsReducer = (state, action) => {
+export const cocktailResultsReducer = (state, action) => {
   switch (action.type) {
-    case 'FETCH_COCKTAILS_START':
-      return { ...state, isLoading: true };
-    case 'FETCH_COCKTAILS_SUCCESS':
+    case 'FETCH_STARTED':
+      return {
+        ...state,
+        isLoading: true,
+        payload: [],
+      };
+    case 'FETCH_SUCCESS':
       return {
         ...state,
         isLoading: false,
-        data: data.forEach((subdata) => {
-          if (subdata.drinks !== null) {
-            setCocktail((previousState) => previousState.concat(subdata.drinks));
-          }
-        }),
+        payload: action.payload,
       };
     default:
       throw new Error();

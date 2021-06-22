@@ -45,13 +45,13 @@ export default CocktailCard;
 const styles = {
   wrapper: {
     backgroundColor: '#444',
-    width: `calc(25% - ${theme.spacing.u1}px)`,
+    width: 'calc(25% - 8px)',
     borderRadius: 5,
     overflow: 'hidden',
-    margin: `0 ${theme.spacing.u1}px ${theme.spacing.u1}px 0`,
+    margin: `0 8px 8px 0`,
   },
   copyContainer: {
-    padding: `${theme.spacing.u1}px ${theme.spacing.u2}px`,
+    padding: '8px 16px',
     display: 'flex',
     flexDirection: 'column',
   },
