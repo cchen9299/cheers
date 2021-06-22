@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { titleStyle, subtitleStyle, theme, pillStyle } from '../../appTheme';
 
 function CocktailCard({ cocktail }) {
   const [ingredients, setIngredients] = useState([]);
@@ -21,15 +22,15 @@ function CocktailCard({ cocktail }) {
     <div style={styles.wrapper}>
       <img src={cocktail.strDrinkThumb} width="100%" height="auto" alt={cocktail.strDrink} />
       <div style={styles.copyContainer}>
-        <p style={styles.title}>{cocktail.strDrink}</p>
-        <p style={styles.subtitle}>Main Ingredient</p>
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-          <p style={styles.pills}>{cocktail.strIngredient1}</p>
+        <p style={titleStyle}>{cocktail.strDrink}</p>
+        <p style={subtitleStyle}>Main Ingredient</p>
+        <div style={styles.pillsWrapper}>
+          <p style={pillStyle}>{cocktail.strIngredient1}</p>
         </div>
-        <p style={styles.subtitle}>Additional Ingredients</p>
-        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        <p style={subtitleStyle}>Additional Ingredients</p>
+        <div style={styles.pillsWrapper}>
           {ingredients.map((ingredient, index) => (
-            <p key={index} style={styles.pills}>
+            <p key={index} style={pillStyle}>
               {ingredient}
             </p>
           ))}
@@ -44,34 +45,18 @@ export default CocktailCard;
 const styles = {
   wrapper: {
     backgroundColor: '#444',
-    width: 'calc(25% - 8px)',
+    width: `calc(25% - ${theme.spacing.u1}px)`,
     borderRadius: 5,
     overflow: 'hidden',
-    margin: '0 8px 8px 0',
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 19,
-    lineHeight: '27px',
-    marginBottom: 4,
+    margin: `0 ${theme.spacing.u1}px ${theme.spacing.u1}px 0`,
   },
   copyContainer: {
-    padding: '8px 16px',
+    padding: `${theme.spacing.u1}px ${theme.spacing.u2}px`,
     display: 'flex',
     flexDirection: 'column',
   },
-  subtitle: {
-    color: '#999',
-    fontWeight: '500',
-    marginBottom: 4,
-  },
-  pills: {
-    fontSize: '12px',
-    marginRight: '4px',
-    marginBottom: '8px',
-    padding: '0 8px',
-    backgroundColor: '#777',
-    borderRadius: 100,
-    fontWeight: '700',
+  pillsWrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
   },
 };
