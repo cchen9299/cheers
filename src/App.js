@@ -37,7 +37,7 @@ function App() {
   });
 
   return (
-    <div>
+    <div style={{ maxWidth: 1200, margin: '0 auto' }}>
       <label style={{ color: 'white' }}>Search: </label>
       <input onChange={handleSearchInputChange} />
       {cocktail !== null && <CocktailCardList cocktail={filteredCocktail} />}
