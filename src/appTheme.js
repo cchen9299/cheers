@@ -21,10 +21,17 @@ export const theme = {
   },
 };
 
-export const titleStyle = {
+export const largeTitleStyle = {
   fontWeight: 'bold',
   fontSize: 36,
   lineHeight: '45px',
+  marginBottom: 4,
+};
+
+export const titleStyle = {
+  fontWeight: 'bold',
+  fontSize: 24,
+  lineHeight: '32px',
   marginBottom: 4,
 };
 

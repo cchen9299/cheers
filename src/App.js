@@ -43,12 +43,27 @@ function App() {
 
   return (
     <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-      {console.log(cocktail)}
-      <label style={{ color: 'white' }}>Search: </label>
-      <input onChange={handleSearchInputChange} />
+      <input onChange={handleSearchInputChange} style={styles.input} placeholder="Search Name or Ingredient" />
       {cocktail.payload && <CocktailCardList cocktail={filteredCocktail} />}
     </div>
   );
 }
 
 export default App;
+
+const styles = {
+  input: {
+    borderRadius: 30,
+    display: 'flex',
+    width: 'calc(100% - 40px)',
+    padding: '8px 24px',
+    height: 30,
+    fontSize: 16,
+    backgroundColor: '#444',
+    margin: '16px 0',
+    caretColor: 'white',
+    borderWidth: 0,
+    outlineWidth: 0,
+    color: 'white',
+  },
+};

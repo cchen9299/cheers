@@ -9,11 +9,18 @@ function CocktailCard({ cocktail }) {
     runThroughIngredients(cocktail);
   }, [cocktail]);
 
+  const toSentenceCase = (string) => {
+    return string
+      .split(' ')
+      .map((word) => word[0].toUpperCase() + word.substr(1).toLowerCase())
+      .join(' ');
+  };
+
   const runThroughIngredients = (data) => {
     setIngredients([]);
     for (let i = 2; i <= MAX_NUMBER_OF_INGREDIENTS; i++) {
       if (data['strIngredient' + i] !== null) {
-        setIngredients((prev) => prev.concat(data['strIngredient' + i]));
+        setIngredients((prev) => prev.concat(toSentenceCase(data['strIngredient' + i])));
       }
     }
   };
@@ -25,7 +32,7 @@ function CocktailCard({ cocktail }) {
         <p style={titleStyle}>{cocktail.strDrink}</p>
         <p style={subtitleStyle}>Main Ingredient</p>
         <div style={styles.pillsWrapper}>
-          <p style={pillStyle}>{cocktail.strIngredient1}</p>
+          <p style={pillStyle}>{toSentenceCase(cocktail.strIngredient1)}</p>
         </div>
         <p style={subtitleStyle}>Additional Ingredients</p>
         <div style={styles.pillsWrapper}>
