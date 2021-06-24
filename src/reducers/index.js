@@ -7,13 +7,12 @@ const init = {
 };
 
 export const cocktailResultsReducer = (state = init, action) => {
-  console.log('reducer called');
   switch (action.type) {
     case FETCH_STARTED:
       return {
         ...state,
-        isLoading: true,
-        items: [],
+        isLoading: action.isLoading,
+        items: action.payload,
       };
     case FETCH_SUCCESS:
       return {
