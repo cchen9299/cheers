@@ -1,2 +1,7 @@
 export const FETCH_STARTED = 'FETCH_STARTED';
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
+
+export const searchTermTypes = {
+  ADD_SEARCH_TERM: 'ADD_SEARCH_TERM',
+  REMOVE_SEARCH_TERM: 'REMOVE_SEARCH_TERM',
+};

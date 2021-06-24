@@ -1,26 +1,8 @@
-import { FETCH_STARTED, FETCH_SUCCESS } from '../actions/types';
+import { combineReducers } from 'redux';
+import cocktailResultsReducer from './cocktailResultsReducer';
+import searchTermReducer from './searchTermReducer';
 
-const init = {
-  isLoading: false,
-  items: [],
-  item: {},
-};
-
-export const cocktailResultsReducer = (state = init, action) => {
-  switch (action.type) {
-    case FETCH_STARTED:
-      return {
-        ...state,
-        isLoading: action.isLoading,
-        items: action.payload,
-      };
-    case FETCH_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-        items: action.payload,
-      };
-    default:
-      return state;
-  }
-};
+export default combineReducers({
+  cocktails: cocktailResultsReducer,
+  searchTerms: searchTermReducer,
+});

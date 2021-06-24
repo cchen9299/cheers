@@ -1,4 +1,4 @@
-import { FETCH_STARTED, FETCH_SUCCESS } from './types';
+import { FETCH_STARTED, FETCH_SUCCESS, searchTermTypes } from './types';
 
 export const fetchCocktails = () => (dispatch) => {
   dispatch({
@@ -15,4 +15,18 @@ export const fetchCocktails = () => (dispatch) => {
         isLoading: false,
       });
     });
+};
+
+export const setSearchTerm = (searchTerm) => (dispatch) => {
+  dispatch({
+    type: searchTermTypes.ADD_SEARCH_TERM,
+    payload: searchTerm,
+  });
+};
+
+export const removeSearchTerm = (searchTerm) => (dispatch) => {
+  dispatch({
+    type: searchTermTypes.REMOVE_SEARCH_TERM,
+    payload: searchTerm,
+  });
 };

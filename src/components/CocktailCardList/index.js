@@ -45,8 +45,8 @@ function CocktailCardList({ cocktail, fetchCocktails, searchTerm, isLoading }) {
 }
 
 const mapStateToProps = (state) => ({
-  cocktail: state.items,
-  isLoading: state.isLoading,
+  cocktail: state.cocktails.items,
+  isLoading: state.cocktails.isLoading,
 });
 
 export default connect(mapStateToProps, { fetchCocktails })(CocktailCardList);
