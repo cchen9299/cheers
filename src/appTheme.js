@@ -45,8 +45,10 @@ export const pillStyle = {
   fontSize: '12px',
   marginRight: '4px',
   marginBottom: '8px',
-  padding: '0 8px',
+  padding: '4px 12px',
   backgroundColor: '#777',
   borderRadius: 100,
   fontWeight: '700',
+  color: 'white',
+  borderWidth: 0,
 };

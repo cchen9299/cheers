@@ -59,24 +59,3 @@ const Input = styled.input`
     color: #f1f1f1;
   }
 `;
-
-const styles = {
-  input: {
-    borderRadius: 30,
-    display: 'flex',
-    width: 'calc(100% - 48px)',
-    padding: '8px 24px',
-    height: 30,
-    fontSize: 16,
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    margin: '16px 0',
-    caretColor: 'white',
-    outlineWidth: 0,
-    color: 'white',
-    borderWidth: 2,
-    borderColor: 'white',
-    borderStyle: 'solid',
-    textShadow: '0 0 5px whitesmoke',
-    boxShadow: '0 0 10px whitesmoke, 0 0 30px green, 0 0 50px green, inset 0 0 20px whitesmoke, inset 0 0 40px green',
-  },
-};

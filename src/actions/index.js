@@ -1,4 +1,4 @@
-import { FETCH_STARTED, FETCH_SUCCESS, searchTermTypes } from './types';
+import { FETCH_STARTED, FETCH_SUCCESS } from './types';
 
 export const fetchCocktails = () => (dispatch) => {
   dispatch({
@@ -9,24 +9,41 @@ export const fetchCocktails = () => (dispatch) => {
   fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a')
     .then((res) => res.json())
     .then((data) => {
+      const newDrinkList = data.drinks.map((drink) => {
+        const newDrinkObject = drink;
+        // get ingredients keys
+        const ingredientList = Object.keys(drink).filter((key) => {
+          return key.includes('Ingredient');
+        });
+        //assign values to ingredients keys
+        ingredientList.forEach((ingredient, index) => {
+          ingredientList[index] = drink[ingredient] ? toSentenceCase(drink[ingredient]) : null;
+          delete newDrinkObject[ingredient];
+        });
+
+        //get measurement keys
+        const measurementList = Object.keys(drink).filter((key) => {
+          return key.includes('Measure');
+        });
+        //assign values to measurement keys
+        measurementList.forEach((measurement, index) => {
+          measurementList[index] = drink[measurement];
+          delete newDrinkObject[measurement];
+        });
+
+        return Object.assign(newDrinkObject, { ingredients: ingredientList, measurements: measurementList });
+      });
       dispatch({
         type: FETCH_SUCCESS,
-        payload: data.drinks,
+        payload: newDrinkList,
         isLoading: false,
       });
     });
 };
 
-export const setSearchTerm = (searchTerm) => (dispatch) => {
-  dispatch({
-    type: searchTermTypes.ADD_SEARCH_TERM,
-    payload: searchTerm,
-  });
-};
-
-export const removeSearchTerm = (searchTerm) => (dispatch) => {
-  dispatch({
-    type: searchTermTypes.REMOVE_SEARCH_TERM,
-    payload: searchTerm,
-  });
+const toSentenceCase = (string) => {
+  return string
+    .split(' ')
+    .map((word) => word[0].toUpperCase() + word.substr(1).toLowerCase())
+    .join(' ');
 };

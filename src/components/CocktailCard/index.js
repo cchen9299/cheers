@@ -1,29 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { titleStyle, subtitleStyle, pillStyle } from '../../appTheme';
+import { titleStyle, subtitleStyle } from '../../appTheme';
 
-function CocktailCard({ cocktail }) {
-  const [ingredients, setIngredients] = useState([]);
-  const MAX_NUMBER_OF_INGREDIENTS = 10;
-
-  useEffect(() => {
-    runThroughIngredients(cocktail);
-  }, [cocktail]);
-
-  const toSentenceCase = (string) => {
-    return string
-      .split(' ')
-      .map((word) => word[0].toUpperCase() + word.substr(1).toLowerCase())
-      .join(' ');
-  };
-
-  const runThroughIngredients = (data) => {
-    setIngredients([]);
-    for (let i = 2; i <= MAX_NUMBER_OF_INGREDIENTS; i++) {
-      if (data['strIngredient' + i] !== null) {
-        setIngredients((prev) => prev.concat(toSentenceCase(data['strIngredient' + i])));
-      }
-    }
+function CocktailCard({ cocktail, handlePillClick }) {
+  const handlePillClickCallBack = (ingredient) => {
+    handlePillClick(ingredient);
   };
 
   return (
@@ -32,15 +13,21 @@ function CocktailCard({ cocktail }) {
         <p style={titleStyle}>{cocktail.strDrink}</p>
         <p style={subtitleStyle}>Main Ingredient</p>
         <PillsContainer>
-          <p style={pillStyle}>{toSentenceCase(cocktail.strIngredient1)}</p>
+          <PillButton onClick={() => handlePillClickCallBack(cocktail.ingredients[0])}>
+            {cocktail.ingredients[0]}
+          </PillButton>
         </PillsContainer>
         <p style={subtitleStyle}>Additional Ingredients</p>
         <PillsContainer>
-          {ingredients.map((ingredient, index) => (
-            <p key={index} style={pillStyle}>
-              {ingredient}
-            </p>
-          ))}
+          {cocktail.ingredients.map(
+            (ingredient, index) =>
+              ingredient !== null &&
+              index !== 0 && (
+                <PillButton key={index} onClick={() => handlePillClickCallBack(ingredient)}>
+                  {ingredient}
+                </PillButton>
+              )
+          )}
         </PillsContainer>
       </CopyContainer>
       <Image src={cocktail.strDrinkThumb} width="100%" height="100%" alt={cocktail.strDrink} />
@@ -49,6 +36,34 @@ function CocktailCard({ cocktail }) {
 }
 
 export default CocktailCard;
+
+const PillButton = styled.button`
+  font-size: 12px;
+  margin-right: 4px;
+  margin-bottom: 8px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-weight: 900;
+  color: white;
+  cursor: pointer;
+  border-width: 2;
+  border-style: solid;
+  border-color: #0ff;
+  background-color: transparent;
+  box-shadow: 0 0 5px #0ff, inset 0 0 5px #0ff;
+  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+  transition: 0.2s all;
+
+  :hover {
+    box-shadow: 0 0 10px #0ff, inset 0 0 10px #0ff;
+    text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+  }
+  :active {
+    box-shadow: none;
+    background-color: #0ff;
+    color: #333;
+  }
+`;
 
 const CocktailCardWrapper = styled.div`
   width: calc(33% - 8px - 4px);
