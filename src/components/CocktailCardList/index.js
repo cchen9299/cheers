@@ -18,8 +18,16 @@ function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading 
     );
   });
 
+  const secondFilterCocktailList = filteredCocktailList?.filter((drink) => {
+    if (appliedPill.length > 0) {
+      return drink.ingredients.some((ingredient) => {
+        return appliedPill.includes(ingredient);
+      });
+    } else return true;
+  });
+
   const handlePillClickCallBack = (ingredient) => {
-    !appliedPill.includes(ingredient) && setAppliedPill((prev) => prev.concat(ingredient.toLowerCase()));
+    !appliedPill.includes(ingredient) && setAppliedPill((prev) => prev.concat(ingredient));
   };
 
   if (isLoading) {
@@ -36,10 +44,11 @@ function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading 
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', flex: 1, margin: '0 auto', width: '100%' }}>
-      {filteredCocktailList?.map((cocktail, index) => {
+      {secondFilterCocktailList?.map((cocktail, index) => {
         return (
           <CocktailCard
-            key={filteredCocktailList[index]?.idDrink}
+            appliedPill={appliedPill}
+            key={secondFilterCocktailList[index]?.idDrink}
             cocktail={cocktail}
             handlePillClick={handlePillClickCallBack}
           />
