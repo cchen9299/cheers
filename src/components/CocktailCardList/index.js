@@ -18,10 +18,18 @@ function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading 
     );
   });
 
+  // const secondFilterCocktailList = filteredCocktailList?.filter((drink) => {
+  //   if (appliedPill.length > 0) {
+  //     return drink.ingredients.some((ingredient) => {
+  //       return appliedPill.includes(ingredient);
+  //     });
+  //   } else return true;
+  // });
+
   const secondFilterCocktailList = filteredCocktailList?.filter((drink) => {
     if (appliedPill.length > 0) {
-      return drink.ingredients.some((ingredient) => {
-        return appliedPill.includes(ingredient);
+      return appliedPill.every((pill) => {
+        return drink.ingredients.includes(pill);
       });
     } else return true;
   });
