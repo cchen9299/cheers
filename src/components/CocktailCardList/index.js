@@ -11,31 +11,23 @@ function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading 
   }, [fetchCocktails]);
 
   const filteredCocktailList = cocktailList?.filter((drink) => {
-    return (
-      drink.ingredients.some((ingredient) => {
-        return ingredient?.toLowerCase().includes(searchTerm);
-      }) || drink['strDrink'].toLowerCase().includes(searchTerm)
-    );
-  });
-
-  // const secondFilterCocktailList = filteredCocktailList?.filter((drink) => {
-  //   if (appliedPill.length > 0) {
-  //     return drink.ingredients.some((ingredient) => {
-  //       return appliedPill.includes(ingredient);
-  //     });
-  //   } else return true;
-  // });
-
-  const secondFilterCocktailList = filteredCocktailList?.filter((drink) => {
     if (appliedPill.length > 0) {
       return appliedPill.every((pill) => {
         return drink.ingredients.includes(pill);
       });
-    } else return true;
+    } else {
+      return (
+        drink.ingredients.some((ingredient) => {
+          return ingredient?.toLowerCase().includes(searchTerm);
+        }) || drink['strDrink'].toLowerCase().includes(searchTerm)
+      );
+    }
   });
 
   const handlePillClickCallBack = (ingredient) => {
-    !appliedPill.includes(ingredient) && setAppliedPill((prev) => prev.concat(ingredient));
+    appliedPill.includes(ingredient)
+      ? setAppliedPill((prev) => prev.filter((appliedPill) => appliedPill !== ingredient))
+      : setAppliedPill((prev) => prev.concat(ingredient));
   };
 
   if (isLoading) {
@@ -52,11 +44,11 @@ function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading 
 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', flex: 1, margin: '0 auto', width: '100%' }}>
-      {secondFilterCocktailList?.map((cocktail, index) => {
+      {filteredCocktailList?.map((cocktail, index) => {
         return (
           <CocktailCard
             appliedPill={appliedPill}
-            key={secondFilterCocktailList[index]?.idDrink}
+            key={filteredCocktailList[index]?.idDrink}
             cocktail={cocktail}
             handlePillClick={handlePillClickCallBack}
           />

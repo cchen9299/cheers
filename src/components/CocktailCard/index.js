@@ -52,26 +52,33 @@ const PillButton = styled.button`
   padding: 4px 12px;
   border-radius: 100px;
   font-weight: 900;
-  color: white;
   cursor: pointer;
   border-width: 2;
   border-style: solid;
-  border-color: #0ff;
-  background-color: ${(props) => (props.highlighted ? '#0ff' : 'transparent')};
-  box-shadow: 0 0 5px #0ff, inset 0 0 5px #0ff;
-  text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
   transition: 0.2s box-shadow, 0.2s text-shadow, 0.2s color;
 
+  background-color: transparent;
+  border-color: ${(props) => (props.highlighted ? '#0ff' : '#999')};
+  color: ${(props) => (props.highlighted ? '#bbffff' : '#999')};
+  box-shadow: ${(props) => props.highlighted && '0 0 10px #0ff, inset 0 0 10px #0ff'};
+  text-shadow: ${(props) => props.highlighted && '0 0 5px #0ff,  0 0 10px #0ff'};
+
   :hover {
-    box-shadow: 0 0 10px #0ff, inset 0 0 10px #0ff;
-    text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+    border-color: #bbffff;
+    color: #bbffff;
+    box-shadow: 0 0 20px #0ff, inset 0 0 20px #0ff;
   }
   :active {
     box-shadow: none;
-    background-color: #0ff;
-    color: #f0f;
+    text-shadow: 0 0 10px white, 0 0 20px white;
+    color: white;
   }
 `;
+
+// border-color: #0ff;
+// color: ${(props) => (props.highlighted ? '#00b3b3' : 'white')};
+// background-color: ${(props) => (props.highlighted ? '#0ff' : 'transparent')};
+// text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
 
 const CocktailCardWrapper = styled.div`
   width: calc(33% - 8px - 4px);
