@@ -1,14 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import CocktailCard from '../CocktailCard';
 import { connect } from 'react-redux';
 import { fetchCocktails } from '../../actions';
 
-function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading }) {
-  const [appliedPill, setAppliedPill] = useState([]);
-
+function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading, pillList }) {
   useEffect(() => {
     fetchCocktails();
   }, [fetchCocktails]);
+
+  console.log(pillList);
 
   const filterBySearch = (drink) => {
     return (
@@ -19,7 +19,7 @@ function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading 
   };
 
   const filterByPill = (drink) => {
-    return appliedPill?.every((pill) => {
+    return pillList?.every((pill) => {
       return drink.ingredients.includes(pill);
     });
   };
@@ -28,13 +28,7 @@ function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading 
     return cocktailList.filter((drink) => {
       return filterBySearch(drink) && filterByPill(drink);
     });
-  }, [searchTerm, appliedPill, cocktailList]);
-
-  const handlePillClickCallBack = (ingredient) => {
-    appliedPill.includes(ingredient)
-      ? setAppliedPill((prev) => prev.filter((appliedPill) => appliedPill !== ingredient))
-      : setAppliedPill((prev) => prev.concat(ingredient));
-  };
+  }, [searchTerm, pillList, cocktailList]);
 
   if (isLoading) {
     return (
@@ -51,20 +45,14 @@ function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading 
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', flex: 1, margin: '0 auto', width: '100%' }}>
       {filterByAll?.map((cocktail, index) => {
-        return (
-          <CocktailCard
-            appliedPill={appliedPill}
-            key={filterByAll[index]?.idDrink}
-            cocktail={cocktail}
-            handlePillClick={handlePillClickCallBack}
-          />
-        );
+        return <CocktailCard key={filterByAll[index]?.idDrink} cocktail={cocktail} />;
       })}
     </div>
   );
 }
 
 const mapStateToProps = (state) => ({
+  pillList: state.pillData.pillList,
   cocktailList: state.cocktailAPI.cocktailList,
   isLoading: state.cocktailAPI.isLoading,
 });

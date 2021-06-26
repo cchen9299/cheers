@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { titleStyle, subtitleStyle } from '../../appTheme';
+import PillButton from '../PillButton';
+import { connect } from 'react-redux';
+import dispatchPills from '../../actions/dispatchPills';
 
-function CocktailCard({ cocktail, handlePillClick, appliedPill }) {
-  const handlePillClickCallBack = (ingredient) => {
-    handlePillClick(ingredient);
+function CocktailCard({ cocktail, pillList, dispatchPills }) {
+  const [appliedPills, setAppliedPills] = useState(pillList);
+
+  const handleOnClick = (ingredient) => {
+    pillList.includes(ingredient)
+      ? setAppliedPills((prev) => prev.filter((appliedPills) => appliedPills !== ingredient))
+      : setAppliedPills((prev) => prev.concat(ingredient));
   };
+
+  useEffect(() => {
+    dispatchPills(appliedPills?.length > 0 ? appliedPills : []);
+  }, [appliedPills]);
 
   return (
     <CocktailCardWrapper>
@@ -14,71 +25,31 @@ function CocktailCard({ cocktail, handlePillClick, appliedPill }) {
         <p style={subtitleStyle}>Main Ingredient</p>
         <PillsContainer>
           <PillButton
-            highlighted={appliedPill.includes(cocktail.ingredients[0])}
-            onClick={() => handlePillClickCallBack(cocktail.ingredients[0])}
-          >
-            {cocktail.ingredients[0]}
-          </PillButton>
+            highlighted={appliedPills?.includes(cocktail.ingredients[0])}
+            ingredient={cocktail.ingredients[0]}
+            onClick={() => {
+              handleOnClick(cocktail.ingredients[0]);
+            }}
+          />
         </PillsContainer>
         <p style={subtitleStyle}>Additional Ingredients</p>
         <PillsContainer>
-          {cocktail.ingredients.map((ingredient, index) => {
-            console.log();
+          {/* {cocktail.ingredients.map((ingredient, index) => {
             if (ingredient !== null && index !== 0) {
-              return (
-                <PillButton
-                  highlighted={appliedPill.includes(ingredient)}
-                  key={index}
-                  onClick={() => handlePillClickCallBack(ingredient)}
-                >
-                  {ingredient}
-                </PillButton>
-              );
-            }
-          })}
+              return <PillButton key={index} ingredient={ingredient} />;
+            } else return null;
+          })} */}
         </PillsContainer>
       </CopyContainer>
       <Image src={cocktail.strDrinkThumb} width="100%" height="100%" alt={cocktail.strDrink} />
     </CocktailCardWrapper>
   );
 }
+const mapStateToProps = (state) => ({
+  pillList: state.pillData.pillList,
+});
 
-export default CocktailCard;
-
-const PillButton = styled.button`
-  font-size: 12px;
-  margin-right: 4px;
-  margin-bottom: 8px;
-  padding: 4px 12px;
-  border-radius: 100px;
-  font-weight: 900;
-  cursor: pointer;
-  border-width: 2;
-  border-style: solid;
-  transition: 0.2s box-shadow, 0.2s text-shadow, 0.2s color;
-
-  background-color: transparent;
-  border-color: ${(props) => (props.highlighted ? '#0ff' : '#999')};
-  color: ${(props) => (props.highlighted ? '#bbffff' : '#999')};
-  box-shadow: ${(props) => props.highlighted && '0 0 10px #0ff, inset 0 0 10px #0ff'};
-  text-shadow: ${(props) => props.highlighted && '0 0 5px #0ff,  0 0 10px #0ff'};
-
-  :hover {
-    border-color: #bbffff;
-    color: #bbffff;
-    box-shadow: 0 0 20px #0ff, inset 0 0 20px #0ff;
-  }
-  :active {
-    box-shadow: none;
-    text-shadow: 0 0 10px white, 0 0 20px white;
-    color: white;
-  }
-`;
-
-// border-color: #0ff;
-// color: ${(props) => (props.highlighted ? '#00b3b3' : 'white')};
-// background-color: ${(props) => (props.highlighted ? '#0ff' : 'transparent')};
-// text-shadow: 0 0 10px #0ff, 0 0 20px #0ff;
+export default connect(mapStateToProps, { dispatchPills })(CocktailCard);
 
 const CocktailCardWrapper = styled.div`
   width: calc(33% - 8px - 4px);

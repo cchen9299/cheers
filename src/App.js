@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
 import CocktailCardList from './components/CocktailCardList';
 
-function App() {
+function App({ pillList }) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearchInputChange = (event) => {
@@ -23,12 +24,19 @@ function App() {
     >
       <h1>Cheers</h1>
       <Input onChange={handleSearchInputChange} placeholder="Search Name or Ingredient" />
+      {pillList?.map((ingredient, index) => {
+        return <div key={index}>{ingredient}</div>;
+      })}
       {<CocktailCardList searchTerm={searchTerm} />}
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  pillList: state.pillData.pillList,
+});
+
+export default connect(mapStateToProps)(App);
 
 const Input = styled.input`
   border-radius: 30px;

@@ -1,0 +1,40 @@
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+
+export default function PillButton({ ingredient, highlighted, onClick }) {
+  return (
+    <Button highlighted={highlighted} onClick={onClick}>
+      {ingredient}
+    </Button>
+  );
+}
+
+const Button = styled.button`
+  font-size: 12px;
+  margin-right: 4px;
+  margin-bottom: 8px;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-weight: 900;
+  cursor: pointer;
+  border-width: 2;
+  border-style: solid;
+  transition: 0.2s box-shadow, 0.2s text-shadow, 0.2s color;
+
+  background-color: transparent;
+  border-color: ${(props) => (props.highlighted ? '#0ff' : '#999')};
+  color: ${(props) => (props.highlighted ? '#bbffff' : '#999')};
+  box-shadow: ${(props) => props.highlighted && '0 0 10px #0ff, inset 0 0 10px #0ff'};
+  text-shadow: ${(props) => props.highlighted && '0 0 5px #0ff,  0 0 10px #0ff'};
+
+  :hover {
+    border-color: #bbffff;
+    color: #bbffff;
+    box-shadow: 0 0 20px #0ff, inset 0 0 20px #0ff;
+  }
+  :active {
+    box-shadow: none;
+    text-shadow: 0 0 10px white, 0 0 20px white;
+    color: white;
+  }
+`;
