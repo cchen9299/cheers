@@ -1,21 +1,36 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import dispatchPills from './actions/dispatchPills';
 import CocktailCardList from './components/CocktailCardList';
 import PillButton from './components/PillButton';
+import { toSentenceCase } from './util/helper';
 
-function App({ pillList }) {
+function App({ pillList, dispatchPills }) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value.toLowerCase());
   };
 
+  const handleSearchInputSubmit = (event) => {
+    console.log(event);
+    if (event.key === 'Enter') {
+      const sentenceCaseSearchTerm = toSentenceCase(event?.target.value);
+      !pillList.includes(sentenceCaseSearchTerm) && dispatchPills(pillList.concat(sentenceCaseSearchTerm));
+    }
+  };
+
   return (
     <Wrapper>
       <h1>Cheers</h1>
       <SearchContainer>
-        <Input onChange={handleSearchInputChange} placeholder="Search Name or Ingredient" />
+        <Input
+          type="text"
+          onChange={handleSearchInputChange}
+          onKeyDown={handleSearchInputSubmit}
+          placeholder="Search Name or Ingredient"
+        />
         <PillsContainer>
           {pillList?.map((ingredient, index) => {
             return <PillButton key={index} ingredient={ingredient} />;
@@ -32,7 +47,7 @@ const mapStateToProps = (state) => ({
   pillList: state.pillData.pillList,
 });
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, { dispatchPills })(App);
 
 const Wrapper = styled.div`
   max-width: 1200px;

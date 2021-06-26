@@ -1,3 +1,4 @@
+import { toSentenceCase } from '../util/helper';
 import { FETCH_STARTED, FETCH_SUCCESS } from './types';
 
 export const fetchCocktails = () => (dispatch) => {
@@ -39,11 +40,4 @@ export const fetchCocktails = () => (dispatch) => {
         isLoading: false,
       });
     });
-};
-
-const toSentenceCase = (string) => {
-  return string
-    .split(' ')
-    .map((word) => word[0].toUpperCase() + word.substr(1).toLowerCase())
-    .join(' ');
 };

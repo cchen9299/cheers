@@ -34,8 +34,8 @@ const CocktailCardWrapper = styled.div`
   position: relative;
 
   border-width: 2px;
-  border-color: whitesmoke;
   border-style: solid;
+  border-color: transparent;
 
   @media (min-width: 800px) {
     :nth-child(3n) {
@@ -60,6 +60,7 @@ const CocktailCardWrapper = styled.div`
 
   box-shadow: 0 0 10px whitesmoke, 2px 0 20px #f0f, -2px 0 20px #0ff;
   :hover {
+    border-color: whitesmoke;
     box-shadow: 0 0 5px whitesmoke, 2px 0 10px #f0f, -2px 0 10px #0ff;
     z-index: 10;
     > div {
