@@ -8,8 +8,6 @@ function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading,
     fetchCocktails();
   }, [fetchCocktails]);
 
-  console.log(pillList);
-
   const filterBySearch = (drink) => {
     return (
       drink.ingredients?.some((ingredient) => {
@@ -28,7 +26,7 @@ function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading,
     return cocktailList.filter((drink) => {
       return filterBySearch(drink) && filterByPill(drink);
     });
-  }, [searchTerm, pillList, cocktailList]);
+  }, [cocktailList, filterByPill, filterBySearch]);
 
   if (isLoading) {
     return (

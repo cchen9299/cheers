@@ -1,55 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { titleStyle, subtitleStyle } from '../../appTheme';
 import PillButton from '../PillButton';
-import { connect } from 'react-redux';
-import dispatchPills from '../../actions/dispatchPills';
 
-function CocktailCard({ cocktail, pillList, dispatchPills }) {
-  const [appliedPills, setAppliedPills] = useState(pillList);
-
-  const handleOnClick = (ingredient) => {
-    pillList.includes(ingredient)
-      ? setAppliedPills((prev) => prev.filter((appliedPills) => appliedPills !== ingredient))
-      : setAppliedPills((prev) => prev.concat(ingredient));
-  };
-
-  useEffect(() => {
-    dispatchPills(appliedPills?.length > 0 ? appliedPills : []);
-  }, [appliedPills]);
-
+export default function CocktailCard({ cocktail }) {
   return (
     <CocktailCardWrapper>
       <CopyContainer>
         <p style={titleStyle}>{cocktail.strDrink}</p>
         <p style={subtitleStyle}>Main Ingredient</p>
         <PillsContainer>
-          <PillButton
-            highlighted={appliedPills?.includes(cocktail.ingredients[0])}
-            ingredient={cocktail.ingredients[0]}
-            onClick={() => {
-              handleOnClick(cocktail.ingredients[0]);
-            }}
-          />
+          <PillButton ingredient={cocktail.ingredients[0]} />
         </PillsContainer>
         <p style={subtitleStyle}>Additional Ingredients</p>
         <PillsContainer>
-          {/* {cocktail.ingredients.map((ingredient, index) => {
+          {cocktail.ingredients.map((ingredient, index) => {
             if (ingredient !== null && index !== 0) {
               return <PillButton key={index} ingredient={ingredient} />;
             } else return null;
-          })} */}
+          })}
         </PillsContainer>
       </CopyContainer>
       <Image src={cocktail.strDrinkThumb} width="100%" height="100%" alt={cocktail.strDrink} />
     </CocktailCardWrapper>
   );
 }
-const mapStateToProps = (state) => ({
-  pillList: state.pillData.pillList,
-});
-
-export default connect(mapStateToProps, { dispatchPills })(CocktailCard);
 
 const CocktailCardWrapper = styled.div`
   width: calc(33% - 8px - 4px);

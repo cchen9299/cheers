@@ -1,13 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
+import dispatchPills from '../../actions/dispatchPills';
 
-export default function PillButton({ ingredient, highlighted, onClick }) {
+function PillButton({ ingredient, pillList, dispatchPills }) {
+  const handleOnClick = () => {
+    pillList.includes(ingredient)
+      ? dispatchPills(pillList.filter((pillList) => pillList !== ingredient))
+      : dispatchPills(pillList.concat(ingredient));
+  };
+
   return (
-    <Button highlighted={highlighted} onClick={onClick}>
+    <Button highlighted={pillList.includes(ingredient)} onClick={() => handleOnClick()}>
       {ingredient}
     </Button>
   );
 }
+const mapStateToProps = (state) => ({
+  pillList: state.pillData.pillList,
+});
+
+export default connect(mapStateToProps, { dispatchPills })(PillButton);
 
 const Button = styled.button`
   font-size: 12px;

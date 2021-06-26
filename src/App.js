@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import CocktailCardList from './components/CocktailCardList';
+import PillButton from './components/PillButton';
 
 function App({ pillList }) {
   const [searchTerm, setSearchTerm] = useState('');
@@ -11,24 +12,19 @@ function App({ pillList }) {
   };
 
   return (
-    <div
-      style={{
-        maxWidth: 1200,
-        margin: '0 auto',
-        display: 'flex',
-        alignItems: 'center',
-        flexDirection: 'column',
-        alignSelf: 'center',
-        justifyContent: 'center',
-      }}
-    >
+    <Wrapper>
       <h1>Cheers</h1>
-      <Input onChange={handleSearchInputChange} placeholder="Search Name or Ingredient" />
-      {pillList?.map((ingredient, index) => {
-        return <div key={index}>{ingredient}</div>;
-      })}
+      <SearchContainer>
+        <Input onChange={handleSearchInputChange} placeholder="Search Name or Ingredient" />
+        <PillsContainer>
+          {pillList?.map((ingredient, index) => {
+            return <PillButton key={index} ingredient={ingredient} />;
+          })}
+        </PillsContainer>
+      </SearchContainer>
       {<CocktailCardList searchTerm={searchTerm} />}
-    </div>
+      <div style={{ height: '200vh' }} />
+    </Wrapper>
   );
 }
 
@@ -37,6 +33,30 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(App);
+
+const Wrapper = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+`;
+
+const SearchContainer = styled.div`
+  position: sticky;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+`;
+
+const PillsContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: 24px;
+`;
 
 const Input = styled.input`
   border-radius: 30px;
