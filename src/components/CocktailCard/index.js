@@ -9,17 +9,13 @@ export default function CocktailCard({ cocktail, onClick }) {
       <CopyContainer>
         <p style={{ ...titleStyle, fontSize: 48, marginTop: 8 }}>{cocktail.strDrink}</p>
         <div>
-          <p style={{ width: 100, ...subtitleStyle }}>
-            Primary <br /> Ingredient
-          </p>
+          <p style={subtitleStyle}>Primary Ingredient</p>
           <Spacer height={5} />
           <PillsContainer>
             <PillButton ingredient={cocktail.ingredients[0]} />
           </PillsContainer>
           <Spacer height={10} />
-          <p style={{ width: 100, ...subtitleStyle }}>
-            Additional <br /> Ingredients
-          </p>
+          <p style={subtitleStyle}>Additional Ingredients</p>
           <Spacer height={5} />
           <PillsContainer>
             {cocktail.ingredients.map((ingredient, index) => {
@@ -77,7 +73,6 @@ const CocktailCardWrapper = styled.div`
   :hover {
     border-color: whitesmoke;
     box-shadow: 0 0 5px whitesmoke, 2px 0 10px #f0f, -2px 0 10px #0ff;
-    z-index: 10;
     > div {
       box-shadow: inset 0 0 10px white, inset 0 0 30px whitesmoke, inset 20px 10px 80px #f0f, inset -20px 20px 80px #0ff;
     }
