@@ -42,6 +42,7 @@ function App({ pillList, dispatchPills }) {
           onKeyDown={handleSearchInputSubmit}
           placeholder="Search Name or Ingredient"
         />
+        <Spacer height={10} />
         <PillsContainer>
           {pillList?.map((ingredient, index) => {
             return <PillButton key={index} ingredient={ingredient} />;
