@@ -3,22 +3,33 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import dispatchPills from './actions/dispatchPills';
 import CocktailCardList from './components/CocktailCardList';
+import ModalContent from './components/ModalContent';
 import PillButton from './components/PillButton';
 import { toSentenceCase } from './util/helper';
 
 function App({ pillList, dispatchPills }) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalCocktail, setModalCocktail] = useState({});
 
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value.toLowerCase());
   };
 
   const handleSearchInputSubmit = (event) => {
-    console.log(event);
     if (event.key === 'Enter') {
       const sentenceCaseSearchTerm = toSentenceCase(event?.target.value);
       !pillList.includes(sentenceCaseSearchTerm) && dispatchPills(pillList.concat(sentenceCaseSearchTerm));
     }
+  };
+
+  const handleCardOnClick = (event, cocktail) => {
+    setModalCocktail(cocktail);
+    setShowModal(true);
+  };
+
+  const handleHideModal = (value) => {
+    setShowModal(false);
   };
 
   return (
@@ -37,8 +48,10 @@ function App({ pillList, dispatchPills }) {
           })}
         </PillsContainer>
       </SearchContainer>
-      {<CocktailCardList searchTerm={searchTerm} />}
-      <div style={{ height: '200vh' }} />
+      {<CocktailCardList searchTerm={searchTerm} handleCardOnClick={handleCardOnClick} />}
+      {showModal && (
+        <ModalContent showModal={showModal} handleHideModal={handleHideModal} modalCocktail={modalCocktail} />
+      )}
     </Wrapper>
   );
 }
@@ -90,6 +103,7 @@ const Input = styled.input`
   border-color: white;
   border-style: solid;
   text-shadow: 0 0 5px whitesmoke;
+  z-index: 10;
   box-shadow: 0 0 5px whitesmoke, 0 0 10px purple, 0 0 10px blue;
   :hover,
   :focus {

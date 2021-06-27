@@ -3,16 +3,21 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import dispatchPills from '../../actions/dispatchPills';
 
-function PillButton({ ingredient, pillList, dispatchPills }) {
-  const handleOnClick = () => {
+function PillButton({ negateMargin, ingredient, pillList, dispatchPills, measurement, highlighted }) {
+  const handleOnClick = (event) => {
     pillList.includes(ingredient)
       ? dispatchPills(pillList.filter((pillList) => pillList !== ingredient))
       : dispatchPills(pillList.concat(ingredient));
+    event.stopPropagation();
   };
 
   return (
-    <Button highlighted={pillList.includes(ingredient)} onClick={() => handleOnClick()}>
-      {ingredient}
+    <Button
+      negateMargin={negateMargin}
+      highlighted={highlighted || pillList.includes(ingredient)}
+      onClick={(event) => handleOnClick(event)}
+    >
+      {ingredient} {measurement && `- ${measurement}`}
     </Button>
   );
 }
@@ -26,6 +31,9 @@ const Button = styled.button`
   font-size: 12px;
   margin-right: 4px;
   margin-bottom: 8px;
+  :last-child {
+    margin-bottom: ${(props) => (props.negateMargin ? '8px' : '0')};
+  }
   padding: 4px 12px;
   border-radius: 100px;
   font-weight: 900;
