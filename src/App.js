@@ -45,7 +45,7 @@ function App({ pillList, dispatchPills }) {
         <Spacer height={10} />
         <PillsContainer>
           {pillList?.map((ingredient, index) => {
-            return <PillButton key={index} ingredient={ingredient} />;
+            return <PillButton key={index} ingredient={ingredient} negateMargin />;
           })}
         </PillsContainer>
       </SearchContainer>

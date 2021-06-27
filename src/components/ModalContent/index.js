@@ -129,6 +129,7 @@ const styles = {
     right: '5%',
     position: 'absolute',
     opacity: 0.1,
+    zIndex: -1,
   },
   drinkTitle: {
     color: '#00cccc',
