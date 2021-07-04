@@ -14,7 +14,6 @@ function App({ pillList, dispatchPills }) {
   };
 
   const handleSearchInputSubmit = (event) => {
-    console.log(event);
     if (event.key === 'Enter') {
       const sentenceCaseSearchTerm = toSentenceCase(event?.target.value);
       !pillList.includes(sentenceCaseSearchTerm) && dispatchPills(pillList.concat(sentenceCaseSearchTerm));
