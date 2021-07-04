@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import CocktailCard from '../CocktailCard';
 import { connect } from 'react-redux';
 import { fetchCocktails } from '../../actions';
@@ -22,11 +22,9 @@ function CocktailCardList({ cocktailList, fetchCocktails, searchTerm, isLoading,
     });
   };
 
-  const filterByAll = useMemo(() => {
-    return cocktailList.filter((drink) => {
-      return filterBySearch(drink) && filterByPill(drink);
-    });
-  }, [cocktailList, filterByPill, filterBySearch]);
+  const filterByAll = cocktailList.filter((drink) => {
+    return filterBySearch(drink) && filterByPill(drink);
+  });
 
   if (isLoading) {
     return <h2 style={{ color: 'white' }}>Boozing up...</h2>;
