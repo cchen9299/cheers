@@ -3,22 +3,33 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import dispatchPills from './actions/dispatchPills';
 import CocktailCardList from './components/CocktailCardList';
+import ModalContent from './components/ModalContent';
 import PillButton from './components/PillButton';
 import { toSentenceCase } from './util/helper';
 
 function App({ pillList, dispatchPills }) {
   const [searchTerm, setSearchTerm] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalCocktail, setModalCocktail] = useState({});
 
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value.toLowerCase());
   };
 
   const handleSearchInputSubmit = (event) => {
-    console.log(event);
     if (event.key === 'Enter') {
       const sentenceCaseSearchTerm = toSentenceCase(event?.target.value);
       !pillList.includes(sentenceCaseSearchTerm) && dispatchPills(pillList.concat(sentenceCaseSearchTerm));
     }
+  };
+
+  const handleCardOnClick = (event, cocktail) => {
+    setModalCocktail(cocktail);
+    setShowModal(true);
+  };
+
+  const handleHideModal = (value) => {
+    setShowModal(false);
   };
 
   return (
@@ -31,14 +42,18 @@ function App({ pillList, dispatchPills }) {
           onKeyDown={handleSearchInputSubmit}
           placeholder="Search Name or Ingredient"
         />
+        <Spacer height={10} />
         <PillsContainer>
           {pillList?.map((ingredient, index) => {
-            return <PillButton key={index} ingredient={ingredient} />;
+            return <PillButton key={index} ingredient={ingredient} negateMargin />;
           })}
         </PillsContainer>
       </SearchContainer>
-      {<CocktailCardList searchTerm={searchTerm} />}
-      <div style={{ height: '200vh' }} />
+      <Spacer height={30} />
+      {<CocktailCardList searchTerm={searchTerm} handleCardOnClick={handleCardOnClick} />}
+      {showModal && (
+        <ModalContent showModal={showModal} handleHideModal={handleHideModal} modalCocktail={modalCocktail} />
+      )}
     </Wrapper>
   );
 }
@@ -48,6 +63,11 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { dispatchPills })(App);
+
+const Spacer = styled.div`
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
+`;
 
 const Wrapper = styled.div`
   max-width: 1200px;
@@ -62,7 +82,7 @@ const Wrapper = styled.div`
 const SearchContainer = styled.div`
   position: sticky;
   width: 100%;
-  top: 0;
+  top: 15px;
   z-index: 10;
 `;
 
@@ -70,7 +90,6 @@ const PillsContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  margin-bottom: 24px;
 `;
 
 const Input = styled.input`
@@ -82,7 +101,6 @@ const Input = styled.input`
   flex: 1;
   font-size: 16;
   background-color: rgba(0, 0, 0, 0.2);
-  margin: 16px 0;
   caret-color: white;
   outline-width: 0;
   color: white;
@@ -90,6 +108,7 @@ const Input = styled.input`
   border-color: white;
   border-style: solid;
   text-shadow: 0 0 5px whitesmoke;
+  z-index: 999;
   box-shadow: 0 0 5px whitesmoke, 0 0 10px purple, 0 0 10px blue;
   :hover,
   :focus {

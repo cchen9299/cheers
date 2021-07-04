@@ -29,16 +29,17 @@ export const largeTitleStyle = {
 };
 
 export const titleStyle = {
-  fontWeight: 'bold',
-  fontSize: 24,
-  lineHeight: '32px',
+  color: '#00cccc',
+  fontWeight: '900',
+  fontSize: 64,
+  lineHeight: '64px',
   marginBottom: 4,
 };
 
 export const subtitleStyle = {
-  color: '#999',
-  fontWeight: '500',
-  marginBottom: 4,
+  color: '#009999',
+  textTransform: 'uppercase',
+  fontSize: 12,
 };
 
 export const pillStyle = {

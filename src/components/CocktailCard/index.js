@@ -3,28 +3,38 @@ import styled from 'styled-components';
 import { titleStyle, subtitleStyle } from '../../appTheme';
 import PillButton from '../PillButton';
 
-export default function CocktailCard({ cocktail }) {
+export default function CocktailCard({ cocktail, onClick }) {
   return (
-    <CocktailCardWrapper>
+    <CocktailCardWrapper onClick={onClick} id={'cocktailCard'}>
       <CopyContainer>
-        <p style={titleStyle}>{cocktail.strDrink}</p>
-        <p style={subtitleStyle}>Main Ingredient</p>
-        <PillsContainer>
-          <PillButton ingredient={cocktail.ingredients[0]} />
-        </PillsContainer>
-        <p style={subtitleStyle}>Additional Ingredients</p>
-        <PillsContainer>
-          {cocktail.ingredients.map((ingredient, index) => {
-            if (ingredient !== null && index !== 0) {
-              return <PillButton key={index} ingredient={ingredient} />;
-            } else return null;
-          })}
-        </PillsContainer>
+        <p style={{ ...titleStyle, fontSize: 48, marginTop: 8 }}>{cocktail.strDrink}</p>
+        <div>
+          <p style={subtitleStyle}>Primary Ingredient</p>
+          <Spacer height={5} />
+          <PillsContainer>
+            <PillButton ingredient={cocktail.ingredients[0]} />
+          </PillsContainer>
+          <Spacer height={10} />
+          <p style={subtitleStyle}>Additional Ingredients</p>
+          <Spacer height={5} />
+          <PillsContainer>
+            {cocktail.ingredients.map((ingredient, index) => {
+              if (ingredient !== null && index !== 0) {
+                return <PillButton negateMargin key={index} ingredient={ingredient} />;
+              } else return null;
+            })}
+          </PillsContainer>
+        </div>
       </CopyContainer>
       <Image src={cocktail.strDrinkThumb} width="100%" height="100%" alt={cocktail.strDrink} />
     </CocktailCardWrapper>
   );
 }
+
+const Spacer = styled.div`
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
+`;
 
 const CocktailCardWrapper = styled.div`
   width: calc(33% - 8px - 4px);
@@ -32,6 +42,7 @@ const CocktailCardWrapper = styled.div`
   margin: 0 calc(15px + 1px / 3) 16px 0;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
 
   border-width: 2px;
   border-style: solid;
@@ -43,7 +54,7 @@ const CocktailCardWrapper = styled.div`
     }
   }
   @media (max-width: 799px) {
-    width: calc(50% - 8px);
+    width: calc(50% - 8px - 4px);
     :nth-child(2n) {
       margin: 0 0 16px 0;
     }
@@ -62,7 +73,6 @@ const CocktailCardWrapper = styled.div`
   :hover {
     border-color: whitesmoke;
     box-shadow: 0 0 5px whitesmoke, 2px 0 10px #f0f, -2px 0 10px #0ff;
-    z-index: 10;
     > div {
       box-shadow: inset 0 0 10px white, inset 0 0 30px whitesmoke, inset 20px 10px 80px #f0f, inset -20px 20px 80px #0ff;
     }
@@ -70,6 +80,12 @@ const CocktailCardWrapper = styled.div`
       filter: contrast(1.5) brightness(0.9) saturate(1);
       opacity: 1;
     }
+  }
+  :active {
+    > div {
+      box-shadow: inset 0 0 10px white, inset 0 0 20px whitesmoke, inset 5px 5px 50px #f0f, inset -5px 5px 50px #0ff;
+    }
+    box-shadow: 0 0 5px whitesmoke, 2px 0 30px #f0f, -2px 0 30px #0ff;
   }
 `;
 
@@ -85,14 +101,14 @@ const Image = styled.img`
 
 const CopyContainer = styled.div`
   position: absolute;
-  padding: 8px 16px;
+  padding: 8px;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
   bottom: 0;
   width: 100%;
   height: 100%;
-  justify-content: flex-end;
+  justify-content: space-between;
   z-index: 1;
   background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
   transition: 0.2s box-shadow;
@@ -100,6 +116,14 @@ const CopyContainer = styled.div`
 
 const PillsContainer = styled.div`
   display: flex;
-  flex-shrink: 1;
-  flex-wrap: wrap;
+  flex-wrap: wrap-reverse;
 `;
+// align-items: flex-start;
+// flex: 1;
+// flex-direction: column;
+// background-color: rgba(150, 255, 255, 0.1);
+// text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+// padding: 10px;
+// border-width: 1px;
+// border-color: rgba(80, 80, 80);
+// border-style: solid;
